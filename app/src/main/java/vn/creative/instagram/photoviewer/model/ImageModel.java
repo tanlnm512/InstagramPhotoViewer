@@ -7,23 +7,23 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ImageModel {
     @SerializedName("low_resolution")
-    private ImageModel lowRes;
+    private PhotoModel lowRes;
 
     @SerializedName("thumbnail")
-    private ImageModel thumb;
+    private PhotoModel thumb;
 
     @SerializedName("standard_resolution")
-    private ImageModel standardRes;
+    private PhotoModel standardRes;
 
-    public ImageModel getLowRes() {
+    public PhotoModel getLowRes() {
         return lowRes;
     }
 
-    public ImageModel getThumb() {
+    public PhotoModel getThumb() {
         return thumb;
     }
 
-    public ImageModel getStandardRes() {
+    public PhotoModel getStandardRes() {
         return standardRes;
     }
 

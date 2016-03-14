@@ -7,20 +7,31 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import vn.creative.instagram.photoviewer.R;
+import vn.creative.instagram.photoviewer.adapter.PopularPhotoAdapter;
+import vn.creative.instagram.photoviewer.model.PopularPhotoModel;
 
 /**
  * Created by minhtan512 on 3/14/2016.
  */
 public class PopularPhotoFrg extends Fragment {
     private SwipeRefreshLayout swipeContainer;
+    private ListView lvPost;
+    private PopularPhotoAdapter popularPhotoAdapter;
 
     @Nullable
     @Override
@@ -39,6 +50,9 @@ public class PopularPhotoFrg extends Fragment {
             }
         });
 
+        lvPost = (ListView) view.findViewById(R.id.lv_post);
+        fetchTimelineAsync();
+
         return view;
     }
 
@@ -48,6 +62,20 @@ public class PopularPhotoFrg extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
+                try {
+                    Type type = new TypeToken<List<PopularPhotoModel>>() {
+                    }.getType();
+                    List<PopularPhotoModel> popularPhotos = new Gson().fromJson(response.getJSONArray("data").toString(), type);
+                    popularPhotoAdapter = new PopularPhotoAdapter(getContext(), popularPhotos);
+                    lvPost.setAdapter(popularPhotoAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
                 swipeContainer.setRefreshing(false);
             }
         });
