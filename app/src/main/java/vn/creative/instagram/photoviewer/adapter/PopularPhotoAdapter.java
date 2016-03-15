@@ -60,6 +60,8 @@ public class PopularPhotoAdapter extends BaseAdapter {
             holder.commentCount = (TextView) view.findViewById(R.id.tv_comment_count);
             holder.firstComment = (TextView) view.findViewById(R.id.tv_first_comment);
             holder.secondComment = (TextView) view.findViewById(R.id.tv_second_comment);
+            view.setTag(holder);
+
         } else {
             holder = (Holder) view.getTag();
         }
